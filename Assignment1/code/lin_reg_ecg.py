@@ -1,6 +1,7 @@
 import numpy as np
 from numpy.linalg import pinv
 
+
 def fit_line(x, y):
     """
     :param x: x coordinates of data points
@@ -11,6 +12,11 @@ def fit_line(x, y):
     # TODO BONUS task - write an assert command to check if there are at least two data points given, and a message to be displayed if the test fails.
 
     # TODO calculate a and b (either in the form of sums, or by using a design matrix and pinv from numpy.linalg (already imported).
+    assert x.size > 1 and y.size > 1, "Error input of less than 2 datapoints"
+
+    a = sum((x - np.mean(x)) * (y - np.mean(y))) / sum((x - np.mean(x)) ** 2)
+    b = np.mean(y) - a * np.mean(x)
+
     return a, b
 
 
@@ -22,8 +28,10 @@ def intersection(a, b, c, d):
     :param d: intercept of the "right" line
     :return: x, y - corrdinates of the intersection of two lines
     """
-    x = # TODO x-coordinate of the intersection
-    y = # TODO y-coordinate of the intersection
+
+    x = (d - b) / (a - c)
+    y = a * x + b
+
     return x, y
 
 
@@ -36,8 +44,10 @@ def check_if_improved(x_new, y_new, peak, time, signal):
     :param signal: all y-coordinates of signal (i.e., ecg signal)
     :return: 1 - if new peak is improvment of the old peak, otherwise 0
     """
-
-    if y_new > signal[peak] and time[peak-1] < x_new < time[peak + 1]:
+    print(x_new)
+    print(y_new)
+    print("!!!!!!!!!!!!")
+    if y_new > signal[peak] and time[peak - 1] < x_new < time[peak + 1]:
         return 1
     return 0
 
@@ -47,7 +57,8 @@ def test_fit_line():
     y = np.array([3, 4, 5, 6])
     a, b = fit_line(x, y)
 
-    print(a, b) # Should be: a = 1.0, b = 3.0
+    assert (a == 1.0) and (b == 3.0), "assertion error in test_fit_line"
+    print(a, b)  # Should be: a = 1.0, b = 3.0
     # TODO BONUS task - write an assert command that checks a and b (and what it should be in this test case), and a message to be displayed if the test fails.
 
 
@@ -62,17 +73,18 @@ def find_new_peak(peak, time, sig):
     :return:
     """
     # left line
-    n_points = # TODO choose the number of points for the left line
-    ind = # TODO indices for the left line, choose if you want to include the peak or not)
-    x = # TODO
-    y = # TODO
+    n_points = 4  # TODO choose the number of points for the left line
+    ind = peak + 1  # TODO indices for the left line, choose if you want to include the peak or not)
+    x = time[ind - n_points:ind]  # TODO
+    y = sig[ind - n_points:ind]  # TODO
+
     a, b = fit_line(x, y)
 
     # right line
-    n_points = # TODO choose the number of points for the right line
-    ind = # TODO indices for the right line, choose if you want to include the peak or not
-    x = # TODO
-    y = # TODO
+    n_points = 4  # TODO choose the number of points for the right line
+    ind2 = peak  # TODO indices for the right line, choose if you want to include the peak or not
+    x = time[ind2:ind2 + n_points]  # TODO
+    y = sig[ind2:ind2 + n_points]  # TODO
     c, d = fit_line(x, y)
 
     # find intersection point

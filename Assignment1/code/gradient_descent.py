@@ -51,12 +51,12 @@ def gradient_descent(f, df, x0, y0, learning_rate, lr_decay, max_iter):
 
 def ackley(x, y):
     # TODO: Implement the cost function specified in the HW1 sheet
-    z = # TODO
+    z = None# TODO
     return z
 
 
 def gradient_ackey(x, y):
     # TODO: Implement gradients of Ackley function w.r.t. x and y
-    grad_x = # TODO
-    grad_y = # TODO
+    grad_x = None# TODO
+    grad_y = None# TODO
     return grad_x, grad_y

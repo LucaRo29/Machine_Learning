@@ -150,7 +150,7 @@ a
 
 
 # Error!
-print(st)
+#print(st)
 
 
 # In[ ]:
@@ -241,7 +241,7 @@ print("The types of the variables are:\ni\t{}\nf\t{}\nb\t{}\nc\t{}\n".format(typ
 
 s = "Hello "  # string
 i = 10  # Integer
-print(s + i)  # Python doesn't know how to add an integer and string!
+#print(s + i)  # Python doesn't know how to add an integer and string!
 
 
 # In[ ]:

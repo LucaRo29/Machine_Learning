@@ -14,14 +14,14 @@ def task_1_1():
     test_fit_line()
 
     # Load ecg signal from 'data/ecg.npy' using np.load
-    ecg = # TODO
+    ecg = np.load("data/ecg.npy")
 
     # Load indices of peaks from 'indices_peaks.npy' using np.load. There are 83 peaks.
-    peaks = # TODO
+    peaks = np.load("data/indices_peaks.npy")
 
     # Create a "timeline". The ecg signal was sampled at sampling rate of 180 Hz, and in total 50 seconds.
     # Datapoints are evenly spaced. Hint: shape of time signal should be the same as the shape of ecg signal.
-    time = # TODO
+    time = np.arange(0,50,1/180)
     print(f'time shape: {time.shape}, ecg signal shape: {ecg.shape}')
     print(f'First peak: ({time[peaks[0]]:.3f}, {ecg[peaks[0]]:.3f})') # (0.133, 1.965)
 
@@ -53,7 +53,7 @@ def task_1_2():
                     "avg_pulse": 2, "max_pulse": 3, "duration": 4,
                     "exercise_intensity": 5, "fitness_level": 6, "calories": 7}
     # Load the data from 'data/smartwatch_data.npy' using np.load
-    smartwatch_data = # TODO
+    smartwatch_data = None# TODO
 
     # Now you can access it, for example,  smartwatch_data[:, column_to_id["hours_sleep"]]
 
@@ -75,11 +75,11 @@ def task_1_2():
 
 def task_2():
 
-    heart_data = # TODO load data from 'data/heart_data.npy' using np.load
-    heart_data_targets = # TODO load 'data/heart_data_targets.npy'
+    heart_data = None# TODO load data from 'data/heart_data.npy' using np.load
+    heart_data_targets = None# TODO load 'data/heart_data_targets.npy'
 
-    sc = # TODO normalize data using StandardScaler from sklearn.preprocessing (already imported)
-    X_normalized = # TODO transform heart_data
+    sc = None# TODO normalize data using StandardScaler from sklearn.preprocessing (already imported)
+    X_normalized = None# TODO transform heart_data
 
     # Spilit data into train and test sets
     x_train, x_test, y_train, y_test = train_test_split(X_normalized, heart_data_targets,
@@ -87,15 +87,15 @@ def task_2():
     # print(x_train.shape, x_test.shape, y_train.shape, y_test.shape)
 
     # Create a classifier
-    clf = # TODO use LogisticRegression from sklearn.linear_model (already imported)
-    acc_train, acc_test = # TODO
+    clf = None# TODO use LogisticRegression from sklearn.linear_model (already imported)
+    acc_train, acc_test = None# TODO
 
     print(f'Train accuracy: {acc_train:.4f}. Test accuracy: {acc_test:.4f}.')
 
     # Calculate predictions and log_loss
-    y_train_pred = # TODO
-    y_test_pred = # TODO
-    loss_train, loss_test = # TODO use log_loss from sklearn.metrics (already imported)
+    y_train_pred = None# TODO
+    y_test_pred = None# TODO
+    loss_train, loss_test = None# TODO use log_loss from sklearn.metrics (already imported)
     print(f'Train loss: {loss_train}. Test loss: {loss_test}.')
 
     # TODO: Print theta vector (and also the bias term). Hint: check the Attributes of the classifier
@@ -106,8 +106,8 @@ def task_3():
     plot_ackley_function(ackley)
 
     # Choose a random starting point
-    x0 = # TODO choose a random starting x-coordinate, use rand function from np.random
-    y0 = # TODO choose a random starting y-coordinate, use rand function from np.random
+    x0 = None# TODO choose a random starting x-coordinate, use rand function from np.random
+    y0 = None# TODO choose a random starting y-coordinate, use rand function from np.random
     print(x0, y0)
 
     # Call the function gradient_descent

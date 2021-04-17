@@ -9,7 +9,7 @@ def pearson_coeff(x, y):
     :return: Pearson coefficient of correlation
     """
     # Implement it yourself, you are allowed to use np.mean, np.sqrt, np.sum.
-    r = # TODO
+    r = None# TODO
     return r
 
 def design_matrix(x, degree=1): # Simple, and polynomial
@@ -19,7 +19,7 @@ def design_matrix(x, degree=1): # Simple, and polynomial
     :return: Design matrix of shape (n_samples,  degree + 1). e.g., for degree 1, shape is (n_samples, 2)
     """
     # Hint: use np.power and np.arange
-    X = # TODO
+    X = None# TODO
     return X
 
 def design_matrix_multilinear(x): # Multilinear
@@ -28,7 +28,7 @@ def design_matrix_multilinear(x): # Multilinear
     :return: Design matrix of shape (n_samples, n_features)
     """
     # Hint: Use np.concatenate or np.stack
-    X = # TODO
+    X = None# TODO
     return X
 
 def scatterplot_and_line(x, y, theta):
@@ -66,11 +66,11 @@ def fit_predict_mse(x, y, degree=1):
     :return: Theta - optimal parameters found; mse - Mean Squared Error
     """
 
-    X = # TODO create a design matrix (use design_matrix function)
-    theta = # TODO calculate theta using pinv from numpy.linalg (already imported)
+    X = None# TODO create a design matrix (use design_matrix function)
+    theta = None# TODO calculate theta using pinv from numpy.linalg (already imported)
 
-    y_pred = # TODO predict the value of y
-    mse = # TODO calculate MSE
+    y_pred = None# TODO predict the value of y
+    mse = None# TODO calculate MSE
     return theta, mse
 
 def multilinear_fit_predict_mse(x, y):
@@ -81,9 +81,9 @@ def multilinear_fit_predict_mse(x, y):
     :param y: Dependent variable (one-dimensional)
     :return: Theta - optimal parameters found; mse - Mean Squared Error
     """
-    X = # TODO create a design matrix (use design_matrix_multilinear function)
-    theta = # TODO calculate theta using pinv from numpy.linalg (already imported)
+    X = None # TODO create a design matrix (use design_matrix_multilinear function)
+    theta = None# TODO calculate theta using pinv from numpy.linalg (already imported)
 
-    y_pred = # TODO  Predict the value of y
-    mse = # TODO calculate MSE
+    y_pred = None# TODO  Predict the value of y
+    mse = None# TODO calculate MSE
     return theta, mse
