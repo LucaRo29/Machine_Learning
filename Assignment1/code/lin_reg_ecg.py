@@ -9,9 +9,6 @@ def fit_line(x, y):
     :return: a, b - slope and intercept of the fitted line
     """
 
-    # TODO BONUS task - write an assert command to check if there are at least two data points given, and a message to be displayed if the test fails.
-
-    # TODO calculate a and b (either in the form of sums, or by using a design matrix and pinv from numpy.linalg (already imported).
     assert x.size > 1 and y.size > 1, "Error input of less than 2 datapoints"
 
     a = sum((x - np.mean(x)) * (y - np.mean(y))) / sum((x - np.mean(x)) ** 2)
@@ -44,9 +41,7 @@ def check_if_improved(x_new, y_new, peak, time, signal):
     :param signal: all y-coordinates of signal (i.e., ecg signal)
     :return: 1 - if new peak is improvment of the old peak, otherwise 0
     """
-    print(x_new)
-    print(y_new)
-    print("!!!!!!!!!!!!")
+
     if y_new > signal[peak] and time[peak - 1] < x_new < time[peak + 1]:
         return 1
     return 0
@@ -59,7 +54,6 @@ def test_fit_line():
 
     assert (a == 1.0) and (b == 3.0), "assertion error in test_fit_line"
     print(a, b)  # Should be: a = 1.0, b = 3.0
-    # TODO BONUS task - write an assert command that checks a and b (and what it should be in this test case), and a message to be displayed if the test fails.
 
 
 def find_new_peak(peak, time, sig):
@@ -73,19 +67,23 @@ def find_new_peak(peak, time, sig):
     :return:
     """
     # left line
-    n_points = 4  # TODO choose the number of points for the left line
-    ind = peak + 1  # TODO indices for the left line, choose if you want to include the peak or not)
-    x = time[ind - n_points:ind]  # TODO
-    y = sig[ind - n_points:ind]  # TODO
+    n_points = 3
+    ind = peak + 1
+    x = time[ind - n_points:ind]
+    y = sig[ind - n_points:ind]
 
     a, b = fit_line(x, y)
 
     # right line
-    n_points = 4  # TODO choose the number of points for the right line
-    ind2 = peak  # TODO indices for the right line, choose if you want to include the peak or not
-    x = time[ind2:ind2 + n_points]  # TODO
-    y = sig[ind2:ind2 + n_points]  # TODO
+    n_points = 3
+    ind2 = peak
+    x = time[ind2:ind2 + n_points]
+    y = sig[ind2:ind2 + n_points]
+
     c, d = fit_line(x, y)
+
+    # 3 mit peak
+    # Improved peaks: 80.0, total peaks: 83 Percentage of peaks improved: 0.9639
 
     # find intersection point
     x_new, y_new = intersection(a, b, c, d)
