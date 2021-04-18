@@ -1,7 +1,8 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from lin_reg_ecg import test_fit_line, find_new_peak, check_if_improved
-from lin_reg_smartwatch import pearson_coeff, fit_predict_mse, multilinear_fit_predict_mse, scatterplot_and_line, scatterplot_and_curve
+from lin_reg_smartwatch import pearson_coeff, fit_predict_mse, multilinear_fit_predict_mse, scatterplot_and_line, \
+    scatterplot_and_curve, design_matrix_multilinear
 from gradient_descent import ackley, gradient_ackey, gradient_descent, plot_ackley_function
 from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import log_loss
@@ -10,7 +11,6 @@ from sklearn.model_selection import train_test_split
 
 
 def task_1_1():
-
     test_fit_line()
 
     # Load ecg signal from 'data/ecg.npy' using np.load
@@ -21,9 +21,9 @@ def task_1_1():
 
     # Create a "timeline". The ecg signal was sampled at sampling rate of 180 Hz, and in total 50 seconds.
     # Datapoints are evenly spaced. Hint: shape of time signal should be the same as the shape of ecg signal.
-    time = np.arange(0,50,1/180)
+    time = np.arange(0, 50, 1 / 180)
     print(f'time shape: {time.shape}, ecg signal shape: {ecg.shape}')
-    print(f'First peak: ({time[peaks[0]]:.3f}, {ecg[peaks[0]]:.3f})') # (0.133, 1.965)
+    print(f'First peak: ({time[peaks[0]]:.3f}, {ecg[peaks[0]]:.3f})')  # (0.133, 1.965)
 
     # Plot of ecg signal (should be similar to the plot in Fig. 1A of HW1, but shown for 50s, not 8s)
     plt.plot(time, ecg)
@@ -47,20 +47,104 @@ def task_1_1():
 
 
 def task_1_2():
-
     # COLUMN NAMES: hours_sleep, hours_work, avg_pulse, max_pulse, duration, exercise_intensity, fitness_level, calories
     column_to_id = {"hours_sleep": 0, "hours_work": 1,
                     "avg_pulse": 2, "max_pulse": 3, "duration": 4,
                     "exercise_intensity": 5, "fitness_level": 6, "calories": 7}
     # Load the data from 'data/smartwatch_data.npy' using np.load
-    smartwatch_data = None# TODO
+    smartwatch_data = np.load("data/smartwatch_data.npy")
 
     # Now you can access it, for example,  smartwatch_data[:, column_to_id["hours_sleep"]]
 
     # Meaningful relations
-    # TODO (use fit_predict_mse)
+
+    print("duration -> calories")
+    x = smartwatch_data[:, column_to_id["duration"]]
+    y = smartwatch_data[:, column_to_id["calories"]]
+    print("pearson_coeff")
+    print(pearson_coeff(x,y))
+    t,m = fit_predict_mse(x, y)
+    print("theta")
+    print(t)
+    print("mse")
+    print(m)
+
+    print("max_pulse -> avg_pulse")
+    x = smartwatch_data[:, column_to_id["max_pulse"]]
+    y = smartwatch_data[:, column_to_id["avg_pulse"]]
+    print("pearson_coeff")
+    print(pearson_coeff(x, y))
+    t, m = fit_predict_mse(x, y)
+    print("theta")
+    print(t)
+    print("mse")
+    print(m)
+
+    print("duration -> exercise_intensity")
+    x = smartwatch_data[:, column_to_id["duration"]]
+    y = smartwatch_data[:, column_to_id["exercise_intensity"]]
+    print("pearson_coeff")
+    print(pearson_coeff(x, y))
+    t, m = fit_predict_mse(x, y)
+    print("theta")
+    print(t)
+    print("mse")
+    print(m)
+
+    print("duration -> fitness_level")
+    x = smartwatch_data[:, column_to_id["duration"]]
+    y = smartwatch_data[:, column_to_id["fitness_level"]]
+    print("pearson_coeff")
+    print(pearson_coeff(x, y))
+    t, m = fit_predict_mse(x, y)
+    print("theta")
+    print(t)
+    print("mse")
+    print(m)
+
+
+
+
 
     # No linear relations
+    print()
+    print()
+    print()
+    print("No linear relations")
+
+    print("hours_sleep -> hours_work")
+    x = smartwatch_data[:, column_to_id["hours_sleep"]]
+    y = smartwatch_data[:, column_to_id["hours_work"]]
+    print("pearson_coeff")
+    print(pearson_coeff(x, y))
+    t, m = fit_predict_mse(x, y)
+    print("theta")
+    print(t)
+    print("mse")
+    print(m)
+
+    print("hours_sleep -> exercise_intensity ")
+    x = smartwatch_data[:, column_to_id["hours_sleep"]]
+    y = smartwatch_data[:, column_to_id["exercise_intensity"]]
+    print("pearson_coeff")
+    print(pearson_coeff(x, y))
+    t, m = fit_predict_mse(x, y)
+    print("theta")
+    print(t)
+    print("mse")
+    print(m)
+
+    print("avg_pulse -> exercise_intensity ")
+    x = smartwatch_data[:, column_to_id["avg_pulse"]]
+    y = smartwatch_data[:, column_to_id["exercise_intensity"]]
+    print("pearson_coeff")
+    print(pearson_coeff(x, y))
+    t, m = fit_predict_mse(x, y)
+    print("theta")
+    print(t)
+    print("mse")
+    print(m)
+
     # TODO (use fit_predict_mse)
 
     # Polynomial regression
@@ -74,12 +158,11 @@ def task_1_2():
 
 
 def task_2():
+    heart_data = None  # TODO load data from 'data/heart_data.npy' using np.load
+    heart_data_targets = None  # TODO load 'data/heart_data_targets.npy'
 
-    heart_data = None# TODO load data from 'data/heart_data.npy' using np.load
-    heart_data_targets = None# TODO load 'data/heart_data_targets.npy'
-
-    sc = None# TODO normalize data using StandardScaler from sklearn.preprocessing (already imported)
-    X_normalized = None# TODO transform heart_data
+    sc = None  # TODO normalize data using StandardScaler from sklearn.preprocessing (already imported)
+    X_normalized = None  # TODO transform heart_data
 
     # Spilit data into train and test sets
     x_train, x_test, y_train, y_test = train_test_split(X_normalized, heart_data_targets,
@@ -87,15 +170,15 @@ def task_2():
     # print(x_train.shape, x_test.shape, y_train.shape, y_test.shape)
 
     # Create a classifier
-    clf = None# TODO use LogisticRegression from sklearn.linear_model (already imported)
-    acc_train, acc_test = None# TODO
+    clf = None  # TODO use LogisticRegression from sklearn.linear_model (already imported)
+    acc_train, acc_test = None  # TODO
 
     print(f'Train accuracy: {acc_train:.4f}. Test accuracy: {acc_test:.4f}.')
 
     # Calculate predictions and log_loss
-    y_train_pred = None# TODO
-    y_test_pred = None# TODO
-    loss_train, loss_test = None# TODO use log_loss from sklearn.metrics (already imported)
+    y_train_pred = None  # TODO
+    y_test_pred = None  # TODO
+    loss_train, loss_test = None  # TODO use log_loss from sklearn.metrics (already imported)
     print(f'Train loss: {loss_train}. Test loss: {loss_test}.')
 
     # TODO: Print theta vector (and also the bias term). Hint: check the Attributes of the classifier
@@ -106,8 +189,8 @@ def task_3():
     plot_ackley_function(ackley)
 
     # Choose a random starting point
-    x0 = None# TODO choose a random starting x-coordinate, use rand function from np.random
-    y0 = None# TODO choose a random starting y-coordinate, use rand function from np.random
+    x0 = None  # TODO choose a random starting x-coordinate, use rand function from np.random
+    y0 = None  # TODO choose a random starting y-coordinate, use rand function from np.random
     print(x0, y0)
 
     # Call the function gradient_descent
@@ -119,14 +202,15 @@ def task_3():
 
     # TODO Make a plot of the cost over iteration. Do not forget to label the plot (xlabel, ylabel, title)
 
-    print(f'Solution found: f({x:.4f}, {y:.4f})= {ackley(x,y):.4f}' )
-    print(f'Global optimum: f(0, 0)= {ackley(0,0):.4f}')
+    print(f'Solution found: f({x:.4f}, {y:.4f})= {ackley(x, y):.4f}')
+    print(f'Global optimum: f(0, 0)= {ackley(0, 0):.4f}')
+
 
 def main():
-    task_1_1()
+    #task_1_1()
     task_1_2()
-    task_2()
-    task_3()
+    #task_2()
+    #task_3()
 
 
 if __name__ == '__main__':

@@ -2,6 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from numpy.linalg import pinv
 
+
 def pearson_coeff(x, y):
     """
     :param x: Variable_1 (one-dimensional)
@@ -9,27 +10,41 @@ def pearson_coeff(x, y):
     :return: Pearson coefficient of correlation
     """
     # Implement it yourself, you are allowed to use np.mean, np.sqrt, np.sum.
-    r = None# TODO
+    r = np.sum((x - np.mean(x)) * (y - np.mean(y))) / np.sqrt(
+        np.sum((x - np.mean(x)) ** 2) * np.sum((y - np.mean(y)) ** 2))
     return r
 
-def design_matrix(x, degree=1): # Simple, and polynomial
+
+def design_matrix(x, degree=1):  # Simple, and polynomial
     """
     :param x: Feature vector (one-dimensional)
     :param degree: Degree in the polynomial expansion (in the simplest case, degree 1)
     :return: Design matrix of shape (n_samples,  degree + 1). e.g., for degree 1, shape is (n_samples, 2)
     """
     # Hint: use np.power and np.arange
-    X = None# TODO
+
+    ones = np.ones(shape=x.shape)
+    Xtemp = np.vstack((ones, x))
+
+    X = Xtemp.transpose()
+
     return X
 
-def design_matrix_multilinear(x): # Multilinear
+
+def design_matrix_multilinear(x):  # Multilinear
     """
     :param x: Features (MATRIX), shape (n_samples, n_features)
     :return: Design matrix of shape (n_samples, n_features)
     """
     # Hint: Use np.concatenate or np.stack
-    X = None# TODO
+
+    dim = x.shape
+    ones = np.ones((dim[0], 1))
+
+    X = np.hstack((ones, x))
+
     return X
+
 
 def scatterplot_and_line(x, y, theta):
     """
@@ -42,6 +57,7 @@ def scatterplot_and_line(x, y, theta):
     # In which format is it stored in the theta array? Take care of that when plotting the line.
     # TODO
     pass
+
 
 def scatterplot_and_curve(x, y, theta):
     """
@@ -56,6 +72,7 @@ def scatterplot_and_curve(x, y, theta):
     # TODO
     pass
 
+
 def fit_predict_mse(x, y, degree=1):
     """
     Use this function for solving the tasks Meaningful relations, No linear relations, and Polynomial regression!!!
@@ -66,12 +83,18 @@ def fit_predict_mse(x, y, degree=1):
     :return: Theta - optimal parameters found; mse - Mean Squared Error
     """
 
-    X = None# TODO create a design matrix (use design_matrix function)
-    theta = None# TODO calculate theta using pinv from numpy.linalg (already imported)
+    X = design_matrix(x)
+    theta = pinv(X.transpose().dot(X)).dot(X.transpose()).dot(y)
 
-    y_pred = None# TODO predict the value of y
-    mse = None# TODO calculate MSE
+    y_pred = X.dot(theta)
+    mse = np.sum((y - y_pred) ** 2) / len(y)
+
+    plt.scatter(x, y)
+    plt.plot(x, X.dot(theta), color="red")
+    plt.show()
+
     return theta, mse
+
 
 def multilinear_fit_predict_mse(x, y):
     """
@@ -81,9 +104,9 @@ def multilinear_fit_predict_mse(x, y):
     :param y: Dependent variable (one-dimensional)
     :return: Theta - optimal parameters found; mse - Mean Squared Error
     """
-    X = None # TODO create a design matrix (use design_matrix_multilinear function)
-    theta = None# TODO calculate theta using pinv from numpy.linalg (already imported)
+    X = None  # TODO create a design matrix (use design_matrix_multilinear function)
+    theta = None  # TODO calculate theta using pinv from numpy.linalg (already imported)
 
-    y_pred = None# TODO  Predict the value of y
-    mse = None# TODO calculate MSE
+    y_pred = None  # TODO  Predict the value of y
+    mse = None  # TODO calculate MSE
     return theta, mse
