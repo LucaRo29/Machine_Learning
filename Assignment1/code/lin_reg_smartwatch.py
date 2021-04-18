@@ -28,6 +28,13 @@ def design_matrix(x, degree=1):  # Simple, and polynomial
 
     X = Xtemp.transpose()
 
+    x_helper = x
+
+    if degree > 1:
+        for i in range(degree - 1):
+            x_helper = np.power(x_helper, i + 2)
+            X = np.hstack((X, x_helper.reshape(-1, 1)))
+
     return X
 
 
@@ -37,7 +44,7 @@ def design_matrix_multilinear(x):  # Multilinear
     :return: Design matrix of shape (n_samples, n_features)
     """
     # Hint: Use np.concatenate or np.stack
-
+    x = x.transpose()
     dim = x.shape
     ones = np.ones((dim[0], 1))
 
@@ -55,7 +62,7 @@ def scatterplot_and_line(x, y, theta):
     """
     # Theta will be an array with two coefficients, representing slope and intercept.
     # In which format is it stored in the theta array? Take care of that when plotting the line.
-    # TODO
+
     pass
 
 
@@ -83,7 +90,7 @@ def fit_predict_mse(x, y, degree=1):
     :return: Theta - optimal parameters found; mse - Mean Squared Error
     """
 
-    X = design_matrix(x)
+    X = design_matrix(x, degree)
     theta = pinv(X.transpose().dot(X)).dot(X.transpose()).dot(y)
 
     y_pred = X.dot(theta)
@@ -104,9 +111,12 @@ def multilinear_fit_predict_mse(x, y):
     :param y: Dependent variable (one-dimensional)
     :return: Theta - optimal parameters found; mse - Mean Squared Error
     """
-    X = None  # TODO create a design matrix (use design_matrix_multilinear function)
-    theta = None  # TODO calculate theta using pinv from numpy.linalg (already imported)
 
-    y_pred = None  # TODO  Predict the value of y
-    mse = None  # TODO calculate MSE
+    X = design_matrix_multilinear(x)
+
+    theta = pinv(X.transpose().dot(X)).dot(X.transpose()).dot(y)
+
+    y_pred = X.dot(theta)
+    mse = np.sum((y - y_pred) ** 2) / len(y)
+
     return theta, mse

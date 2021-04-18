@@ -68,6 +68,7 @@ def task_1_2():
     print(t)
     print("mse")
     print(m)
+    print()
 
     print("max_pulse -> avg_pulse")
     x = smartwatch_data[:, column_to_id["max_pulse"]]
@@ -79,6 +80,7 @@ def task_1_2():
     print(t)
     print("mse")
     print(m)
+    print()
 
     print("duration -> exercise_intensity")
     x = smartwatch_data[:, column_to_id["duration"]]
@@ -90,6 +92,7 @@ def task_1_2():
     print(t)
     print("mse")
     print(m)
+    print()
 
     print("duration -> fitness_level")
     x = smartwatch_data[:, column_to_id["duration"]]
@@ -111,6 +114,7 @@ def task_1_2():
     print()
     print()
     print("No linear relations")
+    print()
 
     print("hours_sleep -> hours_work")
     x = smartwatch_data[:, column_to_id["hours_sleep"]]
@@ -122,6 +126,7 @@ def task_1_2():
     print(t)
     print("mse")
     print(m)
+    print()
 
     print("hours_sleep -> exercise_intensity ")
     x = smartwatch_data[:, column_to_id["hours_sleep"]]
@@ -134,6 +139,7 @@ def task_1_2():
     print("mse")
     print(m)
 
+    print()
     print("avg_pulse -> exercise_intensity ")
     x = smartwatch_data[:, column_to_id["avg_pulse"]]
     y = smartwatch_data[:, column_to_id["exercise_intensity"]]
@@ -144,14 +150,122 @@ def task_1_2():
     print(t)
     print("mse")
     print(m)
+    print()
 
-    # TODO (use fit_predict_mse)
+
 
     # Polynomial regression
-    # TODO (use fit_predict_mse)
+    print("Polynomial: max_pulse -> avg_pulse")
+    x = smartwatch_data[:, column_to_id["max_pulse"]]
+    y = smartwatch_data[:, column_to_id["avg_pulse"]]
+    print("pearson_coeff")
+    print(pearson_coeff(x, y))
+    t, m = fit_predict_mse(x, y)
+    print("theta")
+    print(t)
+    print("mse")
+    print(m)
+    print()
+    print("Polynomial: max_pulse -> avg_pulse")
+    x = smartwatch_data[:, column_to_id["max_pulse"]]
+    y = smartwatch_data[:, column_to_id["avg_pulse"]]
+    print("pearson_coeff")
+    print(pearson_coeff(x, y))
+    t, m = fit_predict_mse(x, y,2)
+    print("theta")
+    print(t)
+    print("mse")
+    print(m)
+    print()
 
+    print("Polynomial: max_pulse -> avg_pulse")
+    x = smartwatch_data[:, column_to_id["max_pulse"]]
+    y = smartwatch_data[:, column_to_id["avg_pulse"]]
+    print("pearson_coeff")
+    print(pearson_coeff(x, y))
+    t, m = fit_predict_mse(x, y,3)
+    print("theta")
+    print(t)
+    print("mse")
+    print(m)
+    print()
+
+    print("Polynomial: max_pulse -> avg_pulse")
+    x = smartwatch_data[:, column_to_id["max_pulse"]]
+    y = smartwatch_data[:, column_to_id["avg_pulse"]]
+    print("pearson_coeff")
+    print(pearson_coeff(x, y))
+    t, m = fit_predict_mse(x, y,4)
+    print("theta")
+    print(t)
+    print("mse")
+    print(m)
+    print()
+
+    #degree = 2 was best
+
+    print("Polynomial: duration -> calories")
+    x = smartwatch_data[:, column_to_id["duration"]]
+    y = smartwatch_data[:, column_to_id["calories"]]
+    print("pearson_coeff")
+    print(pearson_coeff(x, y))
+    t, m = fit_predict_mse(x, y)
+    print("theta")
+    print(t)
+    print("mse")
+    print(m)
+    print()
+    print("Polynomial: duration -> calories")
+    x = smartwatch_data[:, column_to_id["duration"]]
+    y = smartwatch_data[:, column_to_id["calories"]]
+    print("pearson_coeff")
+    print(pearson_coeff(x, y))
+    t, m = fit_predict_mse(x, y,2)
+    print("theta")
+    print(t)
+    print("mse")
+    print(m)
+    print()
+    print("Polynomial: duration -> calories")
+    x = smartwatch_data[:, column_to_id["duration"]]
+    y = smartwatch_data[:, column_to_id["calories"]]
+    print("pearson_coeff")
+    print(pearson_coeff(x, y))
+    t, m = fit_predict_mse(x, y,3)
+    print("theta")
+    print(t)
+    print("mse")
+    print(m)
+    print()
+    print("Polynomial: duration -> calories")
+    x = smartwatch_data[:, column_to_id["duration"]]
+    y = smartwatch_data[:, column_to_id["calories"]]
+    print("pearson_coeff")
+    print(pearson_coeff(x, y))
+    t, m = fit_predict_mse(x, y,4)
+    print("theta")
+    print(t)
+    print("mse")
+    print(m)
+    print()
+
+    # degree 3 was best
     # Multilinear
-    # TODO (use multilinear_fit_predict_mse)
+
+    print("duration & exercise_intensity & avg_pulse -> calories")
+    x1 = smartwatch_data[:, column_to_id["duration"]]
+    x2 = smartwatch_data[:, column_to_id["exercise_intensity"]]
+    x3 = smartwatch_data[:, column_to_id["avg_pulse"]]
+    x = np.vstack((x1,x2))
+    x = np.vstack((x,x3))
+    y = smartwatch_data[:, column_to_id["calories"]]
+
+    t, m = multilinear_fit_predict_mse(x, y)
+    print("theta")
+    print(t)
+    print("mse")
+    print(m)
+
 
     # When choosing two variables for polynomial regression, use a pair that you used for Meaningful relations, so you can check if the MSE decreases.
     # When choosing a few variables for multilinear regression, use a pair that you used for Meaningful relations, so you can check if the MSE decreases.
