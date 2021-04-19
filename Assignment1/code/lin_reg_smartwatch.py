@@ -29,10 +29,9 @@ def design_matrix(x, degree=1):  # Simple, and polynomial
     X = Xtemp.transpose()
 
     x_helper = x
-
     if degree > 1:
         for i in range(degree - 1):
-            x_helper = np.power(x_helper, i + 2)
+            x_helper = np.power(x, i + 2)
             X = np.hstack((X, x_helper.reshape(-1, 1)))
 
     return X
@@ -62,7 +61,10 @@ def scatterplot_and_line(x, y, theta):
     """
     # Theta will be an array with two coefficients, representing slope and intercept.
     # In which format is it stored in the theta array? Take care of that when plotting the line.
-
+    X = design_matrix(x)
+    plt.scatter(x, y)
+    plt.plot(x, X.dot(theta), color="red")
+    plt.show()
     pass
 
 
@@ -76,7 +78,15 @@ def scatterplot_and_curve(x, y, theta):
     # Theta will be an array with coefficients.
     # In which format is it stored in the theta array? Take care of that when plotting.
     # Hint: use np.polyval
-    # TODO
+
+
+    X = design_matrix(x,theta.size-1)
+    y_pred = X.dot(theta)
+
+    plt.scatter(x, y)
+    plt.plot(np.sort(x),np.sort(y_pred),color="red")
+    plt.show()
+
     pass
 
 
@@ -96,9 +106,12 @@ def fit_predict_mse(x, y, degree=1):
     y_pred = X.dot(theta)
     mse = np.sum((y - y_pred) ** 2) / len(y)
 
-    plt.scatter(x, y)
-    plt.plot(x, X.dot(theta), color="red")
-    plt.show()
+
+    if degree >= 2:
+        print("test")
+        scatterplot_and_curve(x, y, theta)
+    else:
+        scatterplot_and_line(x,y,theta)
 
     return theta, mse
 

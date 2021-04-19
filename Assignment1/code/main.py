@@ -56,6 +56,9 @@ def task_1_2():
 
     # Now you can access it, for example,  smartwatch_data[:, column_to_id["hours_sleep"]]
 
+
+
+
     # Meaningful relations
 
     print("duration -> calories")
@@ -158,19 +161,16 @@ def task_1_2():
     print("Polynomial: max_pulse -> avg_pulse")
     x = smartwatch_data[:, column_to_id["max_pulse"]]
     y = smartwatch_data[:, column_to_id["avg_pulse"]]
-    print("pearson_coeff")
-    print(pearson_coeff(x, y))
     t, m = fit_predict_mse(x, y)
     print("theta")
     print(t)
     print("mse")
     print(m)
     print()
+
     print("Polynomial: max_pulse -> avg_pulse")
     x = smartwatch_data[:, column_to_id["max_pulse"]]
     y = smartwatch_data[:, column_to_id["avg_pulse"]]
-    print("pearson_coeff")
-    print(pearson_coeff(x, y))
     t, m = fit_predict_mse(x, y,2)
     print("theta")
     print(t)
@@ -181,8 +181,6 @@ def task_1_2():
     print("Polynomial: max_pulse -> avg_pulse")
     x = smartwatch_data[:, column_to_id["max_pulse"]]
     y = smartwatch_data[:, column_to_id["avg_pulse"]]
-    print("pearson_coeff")
-    print(pearson_coeff(x, y))
     t, m = fit_predict_mse(x, y,3)
     print("theta")
     print(t)
@@ -193,8 +191,6 @@ def task_1_2():
     print("Polynomial: max_pulse -> avg_pulse")
     x = smartwatch_data[:, column_to_id["max_pulse"]]
     y = smartwatch_data[:, column_to_id["avg_pulse"]]
-    print("pearson_coeff")
-    print(pearson_coeff(x, y))
     t, m = fit_predict_mse(x, y,4)
     print("theta")
     print(t)
@@ -207,41 +203,36 @@ def task_1_2():
     print("Polynomial: duration -> calories")
     x = smartwatch_data[:, column_to_id["duration"]]
     y = smartwatch_data[:, column_to_id["calories"]]
-    print("pearson_coeff")
-    print(pearson_coeff(x, y))
     t, m = fit_predict_mse(x, y)
     print("theta")
     print(t)
     print("mse")
     print(m)
     print()
+
     print("Polynomial: duration -> calories")
     x = smartwatch_data[:, column_to_id["duration"]]
     y = smartwatch_data[:, column_to_id["calories"]]
-    print("pearson_coeff")
-    print(pearson_coeff(x, y))
     t, m = fit_predict_mse(x, y,2)
     print("theta")
     print(t)
     print("mse")
     print(m)
     print()
+
     print("Polynomial: duration -> calories")
     x = smartwatch_data[:, column_to_id["duration"]]
     y = smartwatch_data[:, column_to_id["calories"]]
-    print("pearson_coeff")
-    print(pearson_coeff(x, y))
     t, m = fit_predict_mse(x, y,3)
     print("theta")
     print(t)
     print("mse")
     print(m)
     print()
+
     print("Polynomial: duration -> calories")
     x = smartwatch_data[:, column_to_id["duration"]]
     y = smartwatch_data[:, column_to_id["calories"]]
-    print("pearson_coeff")
-    print(pearson_coeff(x, y))
     t, m = fit_predict_mse(x, y,4)
     print("theta")
     print(t)
