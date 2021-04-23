@@ -268,15 +268,32 @@ def task_2():
     # print(x_train.shape, x_test.shape, y_train.shape, y_test.shape)
 
     # Create a classifier
-    clf = LogisticRegression().fit(x_train,y_train)
+    #clf = LogisticRegression(solver='lbfgs',penalty="l2").fit(x_train,y_train) #Train accuracy: 0.8430. Test accuracy: 0.8525.
+    #clf = LogisticRegression(solver='lbfgs', penalty='none').fit(x_train, y_train) #Train accuracy: 0.8347. Test accuracy: 0.8525.
+
+    #clf = LogisticRegression(solver='liblinear').fit(x_train, y_train) #Train accuracy: 0.8430. Test accuracy: 0.8361.
+    #clf = LogisticRegression(solver='liblinear',penalty="l1").fit(x_train, y_train)#Train accuracy: 0.8430. Test accuracy: 0.8361.
+    #clf = LogisticRegression(solver='liblinear', penalty="l2").fit(x_train, y_train)#Train accuracy: 0.8430. Test accuracy: 0.8361.
+
+    #clf = LogisticRegression(solver='newton-cg', penalty='none').fit(x_train, y_train)    #Train accuracy: 0.8347. Test accuracy: 0.8525.
+    #clf = LogisticRegression(solver='newton-cg', penalty='l2').fit(x_train, y_train) #Train accuracy: 0.8430. Test accuracy: 0.8525.
+
+    #clf = LogisticRegression(solver='lbfgs', penalty='none',C=10).fit(x_train, y_train) #Train accuracy: 0.8347. Test accuracy: 0.8525.
+    #clf = LogisticRegression(solver='lbfgs', penalty='none', C=0.1).fit(x_train, y_train) #Train accuracy: 0.8347. Test accuracy: 0.8525.
+
+    #clf = LogisticRegression(solver='newton-cg', penalty='none',C=10).fit(x_train, y_train) #Train accuracy: 0.8347. Test accuracy: 0.8525.
+    #clf = LogisticRegression(solver='newton-cg', penalty='none', C=0.1).fit(x_train, y_train) #Train accuracy: 0.8347. Test accuracy: 0.8525.
+
+    clf = LogisticRegression().fit(x_train, y_train) #Train accuracy: 0.8430. Test accuracy: 0.8525.
+
     acc_train = clf.score(x_train, y_train)
     acc_test = clf.score(x_test, y_test)
 
     print(f'Train accuracy: {acc_train:.4f}. Test accuracy: {acc_test:.4f}.')
 
     # Calculate predictions and log_loss
-    y_train_pred = clf.predict(x_train)  # TODO
-    y_test_pred = clf.predict(x_test)  # TODO
+    y_train_pred = clf.predict(x_train)
+    y_test_pred = clf.predict(x_test)
     loss_train, loss_test = log_loss(y_train,y_train_pred), log_loss(y_test,y_test_pred)
     print(f'Train loss: {loss_train}. Test loss: {loss_test}.')
 
@@ -287,9 +304,8 @@ def task_2():
     print("Intercept:")
     print(clf.intercept_)
 
-   # print(clf.class_weight)
 
-    # TODO: Print theta vector (and also the bias term). Hint: check the Attributes of the classifier
+
 
 
 def task_3():
@@ -297,13 +313,13 @@ def task_3():
     plot_ackley_function(ackley)
 
     # Choose a random starting point
-    x0 = None  # TODO choose a random starting x-coordinate, use rand function from np.random
-    y0 = None  # TODO choose a random starting y-coordinate, use rand function from np.random
+    x0 = np.random  # TODO choose a random starting x-coordinate, use rand function from np.random
+    y0 = np.random  # TODO choose a random starting y-coordinate, use rand function from np.random
     print(x0, y0)
 
     # Call the function gradient_descent
     # Choose max_iter, learning_rate, lr_decay (first see what happens with lr_decay=1, then change it to a lower value)
-    x, y, E_list = gradient_descent(ackley, gradient_ackey, x0, y0, learning_rate, lr_decay, max_iter)
+    x, y, E_list = gradient_descent(ackley, gradient_ackey, x0, y0, learning_rate = 0.001, lr_decay = 1 , max_iter = 1000)
 
     # Print the point that is the best found solution
     print(f'{x:.4f}, {y:.4f}')
@@ -317,8 +333,8 @@ def task_3():
 def main():
     # task_1_1()
     # task_1_2()
-    task_2()
-    # task_3()
+    #task_2()
+    task_3()
 
 
 if __name__ == '__main__':
