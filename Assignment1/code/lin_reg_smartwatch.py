@@ -108,7 +108,7 @@ def fit_predict_mse(x, y, degree=1):
 
 
     if degree >= 2:
-        print("test")
+
         scatterplot_and_curve(x, y, theta)
     else:
         scatterplot_and_line(x,y,theta)

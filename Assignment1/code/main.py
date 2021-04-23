@@ -1,5 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import sklearn.preprocessing
+
 from lin_reg_ecg import test_fit_line, find_new_peak, check_if_improved
 from lin_reg_smartwatch import pearson_coeff, fit_predict_mse, multilinear_fit_predict_mse, scatterplot_and_line, \
     scatterplot_and_curve, design_matrix_multilinear
@@ -56,17 +58,14 @@ def task_1_2():
 
     # Now you can access it, for example,  smartwatch_data[:, column_to_id["hours_sleep"]]
 
-
-
-
     # Meaningful relations
 
     print("duration -> calories")
     x = smartwatch_data[:, column_to_id["duration"]]
     y = smartwatch_data[:, column_to_id["calories"]]
     print("pearson_coeff")
-    print(pearson_coeff(x,y))
-    t,m = fit_predict_mse(x, y)
+    print(pearson_coeff(x, y))
+    t, m = fit_predict_mse(x, y)
     print("theta")
     print(t)
     print("mse")
@@ -107,10 +106,6 @@ def task_1_2():
     print(t)
     print("mse")
     print(m)
-
-
-
-
 
     # No linear relations
     print()
@@ -155,8 +150,6 @@ def task_1_2():
     print(m)
     print()
 
-
-
     # Polynomial regression
     print("Polynomial: max_pulse -> avg_pulse")
     x = smartwatch_data[:, column_to_id["max_pulse"]]
@@ -171,7 +164,7 @@ def task_1_2():
     print("Polynomial: max_pulse -> avg_pulse")
     x = smartwatch_data[:, column_to_id["max_pulse"]]
     y = smartwatch_data[:, column_to_id["avg_pulse"]]
-    t, m = fit_predict_mse(x, y,2)
+    t, m = fit_predict_mse(x, y, 2)
     print("theta")
     print(t)
     print("mse")
@@ -181,7 +174,7 @@ def task_1_2():
     print("Polynomial: max_pulse -> avg_pulse")
     x = smartwatch_data[:, column_to_id["max_pulse"]]
     y = smartwatch_data[:, column_to_id["avg_pulse"]]
-    t, m = fit_predict_mse(x, y,3)
+    t, m = fit_predict_mse(x, y, 3)
     print("theta")
     print(t)
     print("mse")
@@ -191,14 +184,14 @@ def task_1_2():
     print("Polynomial: max_pulse -> avg_pulse")
     x = smartwatch_data[:, column_to_id["max_pulse"]]
     y = smartwatch_data[:, column_to_id["avg_pulse"]]
-    t, m = fit_predict_mse(x, y,4)
+    t, m = fit_predict_mse(x, y, 4)
     print("theta")
     print(t)
     print("mse")
     print(m)
     print()
 
-    #degree = 2 was best
+    # degree = 2 was best
 
     print("Polynomial: duration -> calories")
     x = smartwatch_data[:, column_to_id["duration"]]
@@ -213,7 +206,7 @@ def task_1_2():
     print("Polynomial: duration -> calories")
     x = smartwatch_data[:, column_to_id["duration"]]
     y = smartwatch_data[:, column_to_id["calories"]]
-    t, m = fit_predict_mse(x, y,2)
+    t, m = fit_predict_mse(x, y, 2)
     print("theta")
     print(t)
     print("mse")
@@ -223,7 +216,7 @@ def task_1_2():
     print("Polynomial: duration -> calories")
     x = smartwatch_data[:, column_to_id["duration"]]
     y = smartwatch_data[:, column_to_id["calories"]]
-    t, m = fit_predict_mse(x, y,3)
+    t, m = fit_predict_mse(x, y, 3)
     print("theta")
     print(t)
     print("mse")
@@ -233,7 +226,7 @@ def task_1_2():
     print("Polynomial: duration -> calories")
     x = smartwatch_data[:, column_to_id["duration"]]
     y = smartwatch_data[:, column_to_id["calories"]]
-    t, m = fit_predict_mse(x, y,4)
+    t, m = fit_predict_mse(x, y, 4)
     print("theta")
     print(t)
     print("mse")
@@ -241,14 +234,15 @@ def task_1_2():
     print()
 
     # degree 3 was best
+
     # Multilinear
 
     print("duration & exercise_intensity & avg_pulse -> calories")
     x1 = smartwatch_data[:, column_to_id["duration"]]
     x2 = smartwatch_data[:, column_to_id["exercise_intensity"]]
     x3 = smartwatch_data[:, column_to_id["avg_pulse"]]
-    x = np.vstack((x1,x2))
-    x = np.vstack((x,x3))
+    x = np.vstack((x1, x2))
+    x = np.vstack((x, x3))
     y = smartwatch_data[:, column_to_id["calories"]]
 
     t, m = multilinear_fit_predict_mse(x, y)
@@ -257,17 +251,16 @@ def task_1_2():
     print("mse")
     print(m)
 
-
     # When choosing two variables for polynomial regression, use a pair that you used for Meaningful relations, so you can check if the MSE decreases.
     # When choosing a few variables for multilinear regression, use a pair that you used for Meaningful relations, so you can check if the MSE decreases.
 
 
 def task_2():
-    heart_data = None  # TODO load data from 'data/heart_data.npy' using np.load
-    heart_data_targets = None  # TODO load 'data/heart_data_targets.npy'
+    heart_data = np.load("data/heart_data.npy")
+    heart_data_targets = np.load("data/heart_data_targets.npy")
 
-    sc = None  # TODO normalize data using StandardScaler from sklearn.preprocessing (already imported)
-    X_normalized = None  # TODO transform heart_data
+    sc = StandardScaler()  # TODO normalize data using StandardScaler from sklearn.preprocessing (already imported)
+    X_normalized = sc.fit_transform(heart_data)
 
     # Spilit data into train and test sets
     x_train, x_test, y_train, y_test = train_test_split(X_normalized, heart_data_targets,
@@ -275,16 +268,26 @@ def task_2():
     # print(x_train.shape, x_test.shape, y_train.shape, y_test.shape)
 
     # Create a classifier
-    clf = None  # TODO use LogisticRegression from sklearn.linear_model (already imported)
-    acc_train, acc_test = None  # TODO
+    clf = LogisticRegression().fit(x_train,y_train)
+    acc_train = clf.score(x_train, y_train)
+    acc_test = clf.score(x_test, y_test)
 
     print(f'Train accuracy: {acc_train:.4f}. Test accuracy: {acc_test:.4f}.')
 
     # Calculate predictions and log_loss
-    y_train_pred = None  # TODO
-    y_test_pred = None  # TODO
-    loss_train, loss_test = None  # TODO use log_loss from sklearn.metrics (already imported)
+    y_train_pred = clf.predict(x_train)  # TODO
+    y_test_pred = clf.predict(x_test)  # TODO
+    loss_train, loss_test = log_loss(y_train,y_train_pred), log_loss(y_test,y_test_pred)
     print(f'Train loss: {loss_train}. Test loss: {loss_test}.')
+
+    print()
+    print("Theta:")
+    print(clf.coef_)
+    print()
+    print("Intercept:")
+    print(clf.intercept_)
+
+   # print(clf.class_weight)
 
     # TODO: Print theta vector (and also the bias term). Hint: check the Attributes of the classifier
 
@@ -312,10 +315,10 @@ def task_3():
 
 
 def main():
-    #task_1_1()
-    task_1_2()
-    #task_2()
-    #task_3()
+    # task_1_1()
+    # task_1_2()
+    task_2()
+    # task_3()
 
 
 if __name__ == '__main__':
