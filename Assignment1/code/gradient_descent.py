@@ -2,6 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 
+
 def plot_ackley_function(f):
     """
     Plotting the 3D surface for a given cost function f.
@@ -44,19 +45,30 @@ def gradient_descent(f, df, x0, y0, learning_rate, lr_decay, max_iter):
     E_list = np.zeros(max_iter)
     x, y = x0, y0
 
-    # TODO Implement a gradient descent algorithm, with a decaying learning rate
+    for i in range(max_iter):
+        gradient_x, gradient_y = df(x, y)
+        x = x - gradient_x * learning_rate * lr_decay
+        y = y - gradient_y * learning_rate * lr_decay
+        E_list[i] = f(x, y)
 
-    return x, y, E_list
+    return x[0], y[0], E_list
 
 
 def ackley(x, y):
-    # TODO: Implement the cost function specified in the HW1 sheet
-    z = None# TODO
+
+    z = - 20 * np.exp(- 0.2 * np.sqrt(0.5 * (x ** 2 + y ** 2))) \
+           - np.exp(0.5 * (np.cos(2 * np.pi * x) + np.cos(2 * np.pi * y))) \
+           + np.e + 20
     return z
 
 
 def gradient_ackey(x, y):
-    # TODO: Implement gradients of Ackley function w.r.t. x and y
-    grad_x = None# TODO
-    grad_y = None# TODO
-    return grad_x, grad_y
+
+    gradient_x = np.pi * np.exp((np.cos(2 * np.pi * x) + np.cos(2 * np.pi * y)) / 2) * np.sin(2 * np.pi * x) + (
+                2 ** (3 / 2) * x * np.exp(-np.sqrt(x ** 2 + y ** 2) / (5 * np.sqrt(2)))) / np.sqrt(
+        x ** 2 + y ** 2)
+
+    gradient_y = np.pi * np.exp((np.cos(2 * np.pi * y) + np.cos(2 * np.pi * x)) / 2) * np.sin(2 * np.pi * y) + (
+                2 ** (3 / 2) * y * np.exp(-np.sqrt(y ** 2 + x ** 2) / (5 * np.sqrt(2)))) / np.sqrt(
+        y ** 2 + x ** 2)
+    return gradient_x, gradient_y

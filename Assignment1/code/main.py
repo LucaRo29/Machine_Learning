@@ -313,27 +313,40 @@ def task_3():
     plot_ackley_function(ackley)
 
     # Choose a random starting point
-    x0 = np.random  # TODO choose a random starting x-coordinate, use rand function from np.random
-    y0 = np.random  # TODO choose a random starting y-coordinate, use rand function from np.random
-    print(x0, y0)
+    x0 = np.random.rand(1)
+    y0 = np.random.rand(1)
 
     # Call the function gradient_descent
-    # Choose max_iter, learning_rate, lr_decay (first see what happens with lr_decay=1, then change it to a lower value)
-    x, y, E_list = gradient_descent(ackley, gradient_ackey, x0, y0, learning_rate = 0.001, lr_decay = 1 , max_iter = 1000)
+    # Choose max_iter, learning_rate, lr_decay (first see what happens with lr_decay=1, then change it to a lower value
+
+    learning_rate = 0.01
+    lr_decay = 0.99
+    max_iter = 30
+    x, y, E_list = gradient_descent(ackley, gradient_ackey, x0, y0, learning_rate , lr_decay , max_iter)
 
     # Print the point that is the best found solution
+    print()
+    print("Best solution on point: ")
     print(f'{x:.4f}, {y:.4f}')
 
-    # TODO Make a plot of the cost over iteration. Do not forget to label the plot (xlabel, ylabel, title)
+
+    x_axis = np.linspace(0, E_list.size, E_list.size)
+    y_axis = E_list
+    plt.title('Cost over iteration')
+    plt.xlabel('Iterations')
+    plt.ylabel('Costs')
+    plt.plot(x_axis, y_axis)
+    plt.show()
 
     print(f'Solution found: f({x:.4f}, {y:.4f})= {ackley(x, y):.4f}')
     print(f'Global optimum: f(0, 0)= {ackley(0, 0):.4f}')
 
 
+
 def main():
-    # task_1_1()
-    # task_1_2()
-    #task_2()
+    task_1_1()
+    task_1_2()
+    task_2()
     task_3()
 
 
