@@ -1,3 +1,4 @@
+import matplotlib.pyplot as plt
 import numpy as np
 from sklearn.decomposition import PCA
 from sklearn.model_selection import train_test_split
@@ -122,7 +123,12 @@ def train_nn_with_different_seeds(features, targets):
     print(f'On the test set: {test_acc_mean:.4f} +/- {test_acc_std:.4f}')
     print(f'Max accuracy: {max(test_acc_arr):.4f}')
     print(f'Min accuracy: {min(test_acc_arr):.4f}')
-    # TODO: print min and max accuracy as well
+
+    plt.title("Loss curve")
+    plt.plot(classifier.loss_curve_)
+    plt.ylabel('Loss')
+    plt.xlabel('Epochs')
+    plt.show()
 
     # TODO: Confusion matrix and classification report (for one classifier that performs well)
 
@@ -144,12 +150,23 @@ def perform_grid_search(features, targets):
     :return:
     """
     X_train, X_test, y_train, y_test = train_test_split(features, targets, test_size=0.2, random_state=33)
-    parameters = None  # TODO create a dictionary of params
+    parameters = {
+        'alpha': [0, 0.001, 1, 10],
+        'learning_rate_init': [0.001, 0.02],
+        'solver': ['lbfgs', 'adam'],
+        'hidden_layer_sizes': [(50,), (100,)]
+    }
 
-    nn = None  # TODO create an instance of MLPClassifier. Do not forget to set parameters as specified in the HW2 sheet.
-    grid_search = None  # TODO create an instance of GridSearchCV from sklearn.model_selection (already imported) with
-    # appropriate params. Set: n_jobs=-1, this is another parameter of GridSearchCV, in order to get faster execution of the code.
+    nn = MLPClassifier(max_iter=500, activation='logistic', random_state=1, early_stopping=True)
+    grid_search = GridSearchCV(nn, parameters, n_jobs=-1)
 
-    # TODO call fit on the train data
-    # TODO print the best score
-    # TODO print the best parameters found by grid_search
+    grid_search.fit(X_train, y_train)
+
+    print("Best score:")
+    print(grid_search.best_score_)
+    print("Best params:")
+    print(grid_search.best_params_)
+
+
+
+
