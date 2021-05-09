@@ -124,6 +124,10 @@ def train_nn_with_different_seeds(features, targets):
     print(f'Max accuracy: {max(test_acc_arr):.4f}')
     print(f'Min accuracy: {min(test_acc_arr):.4f}')
 
+    classifier = MLPClassifier(solver='adam', random_state=1, max_iter=500,
+                               hidden_layer_sizes=n_hidden_neurons,
+                               alpha=1.0, early_stopping=True).fit(X_train, y_train)
+
     plt.title("Loss curve")
     plt.plot(classifier.loss_curve_)
     plt.ylabel('Loss')
