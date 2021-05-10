@@ -159,7 +159,7 @@ def train_nn_with_different_seeds(features, targets):
 
 
     print("Predicting on the test set")
-    y_pred = classifier.predict(X_test)  # TODO calculate predictions
+    y_pred = classifier.predict(X_test)
     print(classification_report(y_test, y_pred))
     print(confusion_matrix(y_test, y_pred, labels=range(10)))
 

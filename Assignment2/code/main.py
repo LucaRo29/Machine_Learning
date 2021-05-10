@@ -33,22 +33,22 @@ def task_1_and_2():
     n_components = 49
     X_reduced = reduce_dimension(features, n_components)
     print(X_reduced.shape)
-    #
-    # # Task 1.2
-    # print("----- Task 1.2 -----")
-    # train_nn(X_reduced, targets)
-    #
-    # # Task 1.3
-    # print("----- Task 1.3 -----")
-    # train_nn_with_regularization(X_reduced, targets)
+
+    # Task 1.2
+    print("----- Task 1.2 -----")
+    train_nn(X_reduced, targets)
+
+    # Task 1.3
+    print("----- Task 1.3 -----")
+    train_nn_with_regularization(X_reduced, targets)
 
     # Task 1.4
     print("----- Task 1.4 -----")
     train_nn_with_different_seeds(X_reduced, targets)
 
-    # # Task 2
-    # print("----- Task 2 -----")
-    # perform_grid_search(X_reduced, targets)
+    # Task 2
+    print("----- Task 2 -----")
+    perform_grid_search(X_reduced, targets)
 
 
 def task_3():  # Regression with NNs
