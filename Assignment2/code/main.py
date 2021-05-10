@@ -4,11 +4,11 @@ from nn_classification import reduce_dimension, train_nn, train_nn_with_regulari
     perform_grid_search
 from nn_regression import solve_regression_task, visualize_3D_data
 
-def task_1_and_2():
 
+def task_1_and_2():
     # Load the 'data/features.npy' and 'data/targets.npy' using np.load.
-    features = # TODO
-    targets = # TODO
+    features = np.load('data/features.npy')
+    targets = np.load('data/targets.npy')
     print(f'Shapes: {features.shape}, {targets.shape}')
 
     # Show one sample for each digit
@@ -30,12 +30,12 @@ def task_1_and_2():
     # PCA
     # Task 1.1.
     print("----- Task 1.1 -----")
-    n_components = # TODO
+    n_components = 49
     X_reduced = reduce_dimension(features, n_components)
     print(X_reduced.shape)
 
     # Task 1.2
-    print("----- Task 1.1 -----")
+    print("----- Task 1.2 -----")
     train_nn(X_reduced, targets)
 
     # Task 1.3
@@ -51,19 +51,20 @@ def task_1_and_2():
     perform_grid_search(X_reduced, targets)
 
 
-def task_3(): # Regression with NNs
+def task_3():  # Regression with NNs
 
     # Load 'data/x_datapoints.npy' and 'data/y_datapoints.npy' using np.load.
-    x_dataset = # TODO
-    y_targets = # TODO
+    x_dataset = np.load('data/x_datapoints.npy')
+    y_targets = np.load('data/y_datapoints.npy')
     print(f'Shapes: {x_dataset.shape}, {y_targets.shape}')
 
     visualize_3D_data(x_dataset, y_targets)
     solve_regression_task(x_dataset, y_targets)
 
+
 def main():
     task_1_and_2()
-    task_3()
+    # task_3()
 
 
 if __name__ == '__main__':
