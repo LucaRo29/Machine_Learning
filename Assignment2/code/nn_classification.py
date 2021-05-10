@@ -40,21 +40,19 @@ def train_nn(features, targets):
     """
     X_train, X_test, y_train, y_test = train_test_split(features, targets, test_size=0.2, random_state=33)
 
-    n_hidden_neurons = [10, 100, 200]  # TODO create a list #Train accuracy: 0.9054. Test accuracy: 0.7724 Loss: 0.3208
-    # Train accuracy: 1.0000. Test accuracy: 0.8329 Loss: 0.0083
-    # Train accuracy: 1.0000. Test accuracy: 0.8402 Loss: 0.0065
-    # 1000 Train accuracy: 1.0000. Test accuracy: 0.8741 Loss: 0.0039
+    n_hidden_neurons = [10, 100, 200]
 
-    classifier = MLPClassifier(solver='adam', random_state=1, max_iter=500, hidden_layer_sizes=n_hidden_neurons).fit(
-        X_train, y_train)
-    # Set parameters (some of them are specified in the HW2 sheet).
+    for x in n_hidden_neurons:
+        classifier = MLPClassifier(solver='adam', random_state=1, max_iter=500, hidden_layer_sizes=x).fit(
+            X_train, y_train)
+        # Set parameters (some of them are specified in the HW2 sheet).
 
-    train_acc = classifier.score(X_train, y_train)
+        train_acc = classifier.score(X_train, y_train)
 
-    test_acc = classifier.score(X_test, y_test)
-    loss = classifier.loss_
-    print(f'Train accuracy: {train_acc:.4f}. Test accuracy: {test_acc:.4f}')
-    print(f'Loss: {loss:.4f}')
+        test_acc = classifier.score(X_test, y_test)
+        loss = classifier.loss_
+        print(f'Train accuracy: {train_acc:.4f}. Test accuracy: {test_acc:.4f}')
+        print(f'Loss: {loss:.4f}')
 
 
 def train_nn_with_regularization(features, targets):
@@ -71,17 +69,43 @@ def train_nn_with_regularization(features, targets):
     # Train accuracy: 1.0000. Test accuracy: 0.8862 Loss: 0.2817
     # Train accuracy: 0.9751. Test accuracy: 0.8378 Loss: 0.0218
     # Train accuracy: 0.9830. Test accuracy: 0.8620 Loss: 0.3784
+    for x in n_hidden_neurons:
+        print(f'Amount of neurons: {x}')
+        print("Early Stopping")
+        classifier = MLPClassifier(solver='adam', random_state=1, max_iter=500, hidden_layer_sizes=x,
+                                   early_stopping=True).fit(X_train, y_train)
 
-    classifier = MLPClassifier(solver='adam', random_state=1, max_iter=500, hidden_layer_sizes=n_hidden_neurons,
-                               alpha=1.0, early_stopping=True).fit(X_train, y_train)
+        train_acc = classifier.score(X_train, y_train)
 
-    train_acc = classifier.score(X_train, y_train)
+        test_acc = classifier.score(X_test, y_test)
+        loss = classifier.loss_
 
-    test_acc = classifier.score(X_test, y_test)
-    loss = classifier.loss_
+        print(f'Train accuracy: {train_acc:.4f}. Test accuracy: {test_acc:.4f}')
+        print(f'Loss: {loss:.4f}')
 
-    print(f'Train accuracy: {train_acc:.4f}. Test accuracy: {test_acc:.4f}')
-    print(f'Loss: {loss:.4f}')
+        print("alpha = 1")
+        classifier = MLPClassifier(solver='adam', random_state=1, max_iter=500, hidden_layer_sizes=x,
+                                   alpha=1.0).fit(X_train, y_train)
+
+        train_acc = classifier.score(X_train, y_train)
+
+        test_acc = classifier.score(X_test, y_test)
+        loss = classifier.loss_
+
+        print(f'Train accuracy: {train_acc:.4f}. Test accuracy: {test_acc:.4f}')
+        print(f'Loss: {loss:.4f}')
+
+        print("alpha = 1 and Early Stopping")
+        classifier = MLPClassifier(solver='adam', random_state=1, max_iter=500, hidden_layer_sizes=x,
+                                   alpha=1.0, early_stopping=True).fit(X_train, y_train)
+
+        train_acc = classifier.score(X_train, y_train)
+
+        test_acc = classifier.score(X_test, y_test)
+        loss = classifier.loss_
+
+        print(f'Train accuracy: {train_acc:.4f}. Test accuracy: {test_acc:.4f}')
+        print(f'Loss: {loss:.4f}')
 
 
 def train_nn_with_different_seeds(features, targets):
@@ -95,17 +119,16 @@ def train_nn_with_different_seeds(features, targets):
     :return:
     """
     X_train, X_test, y_train, y_test = train_test_split(features, targets, test_size=0.2, random_state=33)
-    seeds = [1, 2, 8, 32, 64]  # TODO create a list of different seeds of your choice
+    seeds = [1, 2, 8, 32, 64]
 
     train_acc_arr = np.zeros(len(seeds))
     test_acc_arr = np.zeros(len(seeds))
 
-    n_hidden_neurons = [10, 100, 200]
-
     for i in range(len(seeds)):
+        print(f'seed= {seeds[i]}')
         classifier = MLPClassifier(solver='adam', random_state=seeds[i], max_iter=500,
-                                   hidden_layer_sizes=n_hidden_neurons,
-                                   alpha=1.0, early_stopping=True).fit(X_train, y_train)
+                                   hidden_layer_sizes=100,
+                                   alpha=1.0).fit(X_train, y_train)
 
         train_acc = classifier.score(X_train, y_train)
         test_acc = classifier.score(X_test, y_test)
@@ -125,8 +148,8 @@ def train_nn_with_different_seeds(features, targets):
     print(f'Min accuracy: {min(test_acc_arr):.4f}')
 
     classifier = MLPClassifier(solver='adam', random_state=1, max_iter=500,
-                               hidden_layer_sizes=n_hidden_neurons,
-                               alpha=1.0, early_stopping=True).fit(X_train, y_train)
+                               hidden_layer_sizes=100,
+                               alpha=1.0).fit(X_train, y_train)
 
     plt.title("Loss curve")
     plt.plot(classifier.loss_curve_)
@@ -134,7 +157,6 @@ def train_nn_with_different_seeds(features, targets):
     plt.xlabel('Epochs')
     plt.show()
 
-    # TODO: Confusion matrix and classification report (for one classifier that performs well)
 
     print("Predicting on the test set")
     y_pred = classifier.predict(X_test)  # TODO calculate predictions
@@ -170,7 +192,3 @@ def perform_grid_search(features, targets):
     print(grid_search.best_score_)
     print("Best params:")
     print(grid_search.best_params_)
-
-
-
-
