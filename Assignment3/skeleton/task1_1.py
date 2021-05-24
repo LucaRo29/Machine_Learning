@@ -26,23 +26,20 @@ class KNearestNeighborsClassifier(BaseEstimator):
 
     def predict(self, X):
         # TODO: assign class labels
-        print('predict')
-        print(X.shape)
-        print(self._X.shape)
 
-        print(X[0])
-        print("_________")
-        print(eucledian_dist(self._X[0], X[0]))
-        print(eucledian_dist(self._X[0], X[1]))
-        print('!!!!!!!')
-        print(eucledian_dist(self._X[1], X[0]))
-        print(eucledian_dist(self._X[1], X[1]))
+
+
+        # print("_________")
+        # print(eucledian_dist(self._X[0], X[0]))
+        # print(eucledian_dist(self._X[0], X[1]))
+        # print('!!!!!!!')
+        # print(eucledian_dist(self._X[1], X[0]))
+        # print(eucledian_dist(self._X[1], X[1]))
 
         dist = pairwise_distances(self._X, X, metric='euclidean')
-        print(dist.shape)
-        print(dist)
 
-        print("_________")
+
+
 
         # useful numpy methods: np.argsort, np.unique, np.argmax, np.count_nonzero
         # pay close attention to the `axis` parameter of these methods

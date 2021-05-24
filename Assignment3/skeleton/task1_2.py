@@ -10,14 +10,14 @@ if __name__ == '__main__':
     for idx in [1, 2, 3]:
         X_train, X_test, y_train, y_test = get_toy_dataset(idx)
         knn = KNearestNeighborsClassifier()
-        knn.fit(X_train,y_train)
+        knn.fit(X_train, y_train)
         knn.predict(X_test)
 
         # TODO: use the `GridSearchCV` meta-classifier and search over different values of `k`!
         # include the `return_train_score=True` option to get the training accuracies
 
-        #parameters = {'k': [3, 5, 10, 25, 50]}
-        #clf = GridSearchCV(knn, parameters, n_jobs=-1, return_train_score=True)
+        # parameters = {'k': [3, 5, 10, 25, 50]}
+        # clf = GridSearchCV(knn, parameters, n_jobs=-1, return_train_score=True)
         # clf.fit(X_train,y_train)
         # test_score = clf.score(X_test, y_test)
         # print(f"Test Score: {test_score}")
