@@ -25,9 +25,10 @@ class KNearestNeighborsClassifier(BaseEstimator):
         return np.mean(y_pred == y)
 
     def predict(self, X):
-        # TODO: assign class labels
 
-
+        if (self.k >= self._X.shape[0]):
+            print("k must be smaller than the number of data samples")
+            return
 
         # print("_________")
         # print(eucledian_dist(self._X[0], X[0]))
@@ -36,13 +37,21 @@ class KNearestNeighborsClassifier(BaseEstimator):
         # print(eucledian_dist(self._X[1], X[0]))
         # print(eucledian_dist(self._X[1], X[1]))
 
-        dist = pairwise_distances(self._X, X, metric='euclidean')
+        # print(dist)
 
+        predictions = np.array([])
+        y_train = self._y.reshape(-1, 1)
+        for x in X:  # iterating through every test data point
+            dist = pairwise_distances(self._X, X, metric='euclidean')
+            neighbors = np.concatenate((dist, y_train), axis=1)
+            neighbors_sorted = neighbors[neighbors[:, 0].argsort()]  # sorts training points on the basis of distance
 
+            k_neighbors = neighbors_sorted[:self.k]  # selects k-nearest neighbors
 
+            labels, occurences = np.unique(k_neighbors[:, -1], return_counts=True)
 
-        # useful numpy methods: np.argsort, np.unique, np.argmax, np.count_nonzero
-        # pay close attention to the `axis` parameter of these methods
-        # broadcasting is really useful for this task!
-        # See https://numpy.org/doc/stable/user/basics.broadcasting.html
-        return
+            predicted_y = labels[np.argmax(occurences)]
+
+            predictions = np.append(predictions, predicted_y)
+
+        return predictions

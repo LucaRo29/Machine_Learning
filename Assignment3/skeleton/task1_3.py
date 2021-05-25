@@ -11,13 +11,19 @@ from sklearn.model_selection import cross_val_score
 
 if __name__ == '__main__':
   X_train, X_test, y_train, y_test = get_toy_dataset(2, apply_noise=True)
-  for k in [1, 30, 100]:
+  for k in [1,30,100]:
     # TODO fit your KNearestNeighborsClassifier with k in {1, 30, 100} and plot the decision boundaries
-    clf = ...
+    clf = KNearestNeighborsClassifier(k=k)
+    clf.fit(X_train,y_train)
+    clf.predict(X_test)
     # TODO you can use the `cross_val_score` method to manually perform cross-validation
     # TODO report mean cross-validated scores!
     test_score = clf.score(X_test, y_test)
     print(f"Test Score for k={k}: {test_score}")
+    plt.figure()
+    plotting.plot_decision_boundary(X_train, clf)
+    plotting.plot_dataset(X_train, X_test, y_train, y_test)
+    plt.show()
     # TODO plot the decision boundaries!
 
   # TODO find the best parameters for the noisy dataset!
