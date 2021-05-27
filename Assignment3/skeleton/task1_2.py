@@ -12,7 +12,7 @@ if __name__ == '__main__':
         X_train, X_test, y_train, y_test = get_toy_dataset(idx)
         knn = KNearestNeighborsClassifier()
 
-        # include the `return_train_score=True` option to get the training accuracies
+
 
         parameters = {'k': [3, 5, 9, 25, 49]}
         clf = GridSearchCV(knn, parameters, return_train_score=True)
@@ -24,11 +24,14 @@ if __name__ == '__main__':
         plt.figure()
         plotting.plot_decision_boundary(X_train, clf)
         plotting.plot_dataset(X_train, X_test, y_train, y_test)
+        plt.title(f'Dataset{idx}')
         plt.savefig(f'images/Dataset{idx}.png')
 
         plt.show()
         plt.figure()
-        plt.plot(clf.cv_results_['mean_train_score'])
-        plt.plot(clf.cv_results_['mean_test_score'])
+        plt.plot(clf.cv_results_['mean_train_score'],label="mean_train_score")
+        plt.plot(clf.cv_results_['mean_test_score'],label="mean_test_score")
+        plt.title(f'Dataset{idx}')
+        plt.legend()
         plt.savefig(f'images/Dataset{idx}_cvresults.png')
         plt.show()
