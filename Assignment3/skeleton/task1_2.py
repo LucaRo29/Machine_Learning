@@ -13,15 +13,7 @@ if __name__ == '__main__':
     for idx in [1, 2, 3]:
         X_train, X_test, y_train, y_test = get_toy_dataset(idx)
 
-        knn = KNearestNeighborsClassifier(k=3)
-        knn.fit(X_train, y_train)
-
-        clftest = KNeighborsClassifier(n_neighbors=3)
-        clftest.fit(X_train, y_train)
-        test = clftest.predict(X_test)
-        print("Test")
-        print(clftest.score(X_test, y_test))
-        print(test)
+        knn = KNearestNeighborsClassifier()
 
         parameters = {'k': [3, 5, 9, 25, 49]}
         clf = GridSearchCV(knn, parameters, return_train_score=True)
