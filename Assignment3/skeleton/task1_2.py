@@ -15,7 +15,7 @@ if __name__ == '__main__':
 
         knn = KNearestNeighborsClassifier()
 
-        parameters = {'k': [3, 5, 9, 25, 49]}
+        parameters = {'k': [1, 3, 5, 9, 25, 49]}
         clf = GridSearchCV(knn, parameters, return_train_score=True)
 
         clf.fit(X_train, y_train)

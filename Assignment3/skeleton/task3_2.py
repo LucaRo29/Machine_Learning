@@ -11,27 +11,51 @@ from sklearn.feature_selection import RFECV
 import pickle as pkl
 
 if __name__ == '__main__':
-  X_train, X_test, y_train, y_test = get_toy_dataset(4)
+    X_train, X_test, y_train, y_test = get_toy_dataset(4)
 
-  #TODO fit a random forest classifier and check how well it performs on the test set after tuning the parameters,
-  # report your results
-  rf = ...
+    # for i in range(10):
+    #   n_estimators = 100
+    #   parameters = {
+    #     'max_depth': [2, 5, 10, 25,50, 100,200,None]
+    #   }
+    #   rf = RandomForestClassifier(n_estimators=n_estimators)
+    #   clf = GridSearchCV(rf, parameters, n_jobs=-1)
+    #   clf.fit(X_train, y_train)
+    #   test_score = clf.score(X_test, y_test)
+    #   print(f"Dataset: {clf.best_params_}")
+    #   print(f'n_estimators: {n_estimators}')
+    #   print("Test Score:", test_score)
+    # # report your results
+    rf = RandomForestClassifier(n_estimators=100, max_depth=None)
+    rf.fit(X_train, y_train)
+    print("Test Score:", rf.score(X_test, y_test))
 
-  #TODO fit a SVC and find suitable parameters, report your results
-  svc = ...
+    plt.bar(np.array(range(25)), rf.feature_importances_)
+    plt.title('feature_importances')
+    plt.savefig(f'images/feature_importances.png')
+    plt.show()
 
-  # TODO create a bar plot (https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.barh.html#matplotlib.pyplot.barh)
-  # of the `feature_importances_` of the RF classifier.
 
-  # TODO create another RF classifier
-  # Use recursive feature elimination (https://scikit-learn.org/stable/modules/generated/sklearn.feature_selection.RFECV.html#sklearn.feature_selection.RFECV)
-  # to automatically choose the best number of parameters
-  # set `scoring = 'accuracy'` to look for the feature subset with highest accuracy
-  # and fit the RFECV to the training data
-  rf = ...
-  rfecv = ...
+    svc = SVC()
 
-  # TODO use the RFECV to transform the training and test dataset -- it automatically removes the least important
-  # feature columns from the datasets. You don't have to change y_train or y_test
-  # Fit a SVC classifier on the new dataset. Do you see a difference in performance?
-  svc = ...
+    parameters = [{'kernel': ['rbf'], 'gamma': [1e-3, 1e-4],
+                   'C': [1, 10, 100, 1000]},
+                  {'kernel': ['linear'], 'C': [1, 10, 100, 1000]}]
+
+    clf = GridSearchCV(svc, parameters, n_jobs=-1)
+    clf.fit(X_train, y_train)
+    test_score = clf.score(X_test, y_test)
+    print(f"Best SVC params: {clf.best_params_}")
+    print("Test Score:", test_score)
+
+
+
+    rf = RandomForestClassifier()
+    rfecv = RFECV(rf, scoring='accuracy')
+    reducedX_train = rfecv.fit_transform(X_train, y_train)
+    reducedX_test = rfecv.transform(X_test)
+
+
+    svc = SVC()
+    svc.fit(reducedX_train, y_train)
+    print("Test Score:", svc.score(reducedX_test, y_test))
