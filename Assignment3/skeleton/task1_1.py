@@ -42,7 +42,7 @@ class KNearestNeighborsClassifier(BaseEstimator):
         predictions = np.array([])
         y_train = self._y.reshape(-1, 1)
         for x in X:  # iterating through every test data point
-            dist = pairwise_distances(self._X, X, metric='euclidean')
+            dist = pairwise_distances(self._X, x.reshape(1, -1), metric='euclidean')
             neighbors = np.concatenate((dist, y_train), axis=1)
             neighbors_sorted = neighbors[neighbors[:, 0].argsort()]  # sorts training points on the basis of distance
 
