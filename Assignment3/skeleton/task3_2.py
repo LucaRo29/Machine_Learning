@@ -46,6 +46,8 @@ if __name__ == '__main__':
     test_score = clf.score(X_test, y_test)
     print(f"Best SVC params: {clf.best_params_}")
     print("Test Score:", test_score)
+    mean_test_score = clf.cv_results_['mean_test_score']
+    print(f'mean_test_score: {mean_test_score}')
 
     rf = RandomForestClassifier()
     rfecv = RFECV(rf, scoring='accuracy')
@@ -53,5 +55,10 @@ if __name__ == '__main__':
     reducedX_test = rfecv.transform(X_test)
 
     svc = SVC()
-    svc.fit(reducedX_train, y_train)
-    print("Test Score:", svc.score(reducedX_test, y_test))
+    clf = GridSearchCV(svc, parameters, n_jobs=-1)
+    clf.fit(X_train, y_train)
+    test_score = clf.score(X_test, y_test)
+    print(f"Best SVC params: {clf.best_params_}")
+    print("Test Score:", test_score)
+    mean_test_score = clf.cv_results_['mean_test_score']
+    print(f'mean_test_score: {mean_test_score}')
