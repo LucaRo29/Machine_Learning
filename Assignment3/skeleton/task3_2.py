@@ -35,7 +35,6 @@ if __name__ == '__main__':
     plt.savefig(f'images/feature_importances.png')
     plt.show()
 
-
     svc = SVC()
 
     parameters = [{'kernel': ['rbf'], 'gamma': [1e-3, 1e-4],
@@ -48,13 +47,10 @@ if __name__ == '__main__':
     print(f"Best SVC params: {clf.best_params_}")
     print("Test Score:", test_score)
 
-
-
     rf = RandomForestClassifier()
     rfecv = RFECV(rf, scoring='accuracy')
     reducedX_train = rfecv.fit_transform(X_train, y_train)
     reducedX_test = rfecv.transform(X_test)
-
 
     svc = SVC()
     svc.fit(reducedX_train, y_train)
