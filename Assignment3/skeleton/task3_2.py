@@ -4,6 +4,7 @@ from sklearn.datasets import make_classification
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import GridSearchCV
 from sklearn.svm import SVC
+from sklearn.model_selection import cross_val_score
 
 from datasets import get_heart_dataset, get_toy_dataset
 from sklearn.model_selection import train_test_split, StratifiedKFold
@@ -46,8 +47,8 @@ if __name__ == '__main__':
     test_score = clf.score(X_test, y_test)
     print(f"Best SVC params: {clf.best_params_}")
     print("Test Score:", test_score)
-    mean_test_score = clf.cv_results_['mean_test_score']
-    print(f'mean_test_score: {mean_test_score}')
+    #mean_test_score = clf.cv_results_['mean_test_score']
+    #print(f'mean_test_score: {mean_test_score}')
 
     rf = RandomForestClassifier()
     rfecv = RFECV(rf, scoring='accuracy')
@@ -56,9 +57,16 @@ if __name__ == '__main__':
 
     svc = SVC()
     clf = GridSearchCV(svc, parameters, n_jobs=-1)
-    clf.fit(X_train, y_train)
-    test_score = clf.score(X_test, y_test)
+    clf.fit(reducedX_train, y_train)
+    test_score = clf.score(reducedX_test, y_test)
+
     print(f"Best SVC params: {clf.best_params_}")
     print("Test Score:", test_score)
-    mean_test_score = clf.cv_results_['mean_test_score']
+    mean_test_score = clf.cv_results_['mean_test_score'] #cross_val_score(clf,X_test,y_test)
     print(f'mean_test_score: {mean_test_score}')
+
+    svc = SVC(C=10,gamma=0.001 , kernel='rbf')
+    svc.fit(reducedX_train,y_train)
+    test_score = svc.score(reducedX_test, y_test)
+    meanCV_test_score = np.mean(cross_val_score(svc,reducedX_test,y_test))
+    print(f'meanCV_test_score: {meanCV_test_score}')
