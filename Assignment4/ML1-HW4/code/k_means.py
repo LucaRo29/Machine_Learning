@@ -50,7 +50,7 @@ def assign_samples_to_clusters(X, K, centroids):
     :param centroids: means of clusters, K vectors of dimension D, shape: (K, D)
     :return: ind_samples_clusters: indicator variables for all data points, shape: (N, K)
     """
-    print("test assign_samples_to_clusters")
+    #print("test assign_samples_to_clusters")
     N = X.shape[0]  # N - number of samples
 
     ind_samples_clusters = np.zeros((N, K))
@@ -79,18 +79,19 @@ def recompute_centroids(X, K, ind_samples_clusters):
 
     centroids = np.zeros((K, D))
 
-    print("recompute C")
+    #print("recompute C")
 
     centroids = np.dot(X.transpose(), ind_samples_clusters).transpose()
 
     helper = 0
     for column in ind_samples_clusters.transpose():
-        centroids[helper] = centroids[helper] / np.sum(column)
+        if np.sum(column) > 0:
+            centroids[helper] = centroids[helper] / np.sum(column)
 
         helper += 1
 
-    print(centroids.shape)
-    print(centroids)
+    #print(centroids.shape)
+    #print(centroids)
 
     return centroids
 

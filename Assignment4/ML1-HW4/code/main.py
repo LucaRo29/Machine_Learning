@@ -61,7 +61,6 @@ def plot_mickey_mouse(X, K, ind_samples_clusters, centroids):
 
 
 def plot_cost(cost):
-    # TODO: plot cost over iteration
     plt.plot(cost)
     plt.title("Cost over iteration")
     plt.xlabel("Iterations")
@@ -74,12 +73,13 @@ def task_kmeans(X):
     :param X: data for clustering, shape: (N, D), N=500, D = 2
     :return:
     """
-    K = 3 # TODO: change
-    max_iter = 30 # TODO: change
-    ind_samples_clusters, centroids, cost = kmeans(X, K, max_iter)
+    for x in range(8):
+        K = (x+2)*2 # TODO: change
+        max_iter = 20 # TODO: change
+        ind_samples_clusters, centroids, cost = kmeans(X, K, max_iter)
 
-    plot_cost(cost)
-    plot_mickey_mouse(X, K, ind_samples_clusters, centroids)
+        #plot_cost(cost)
+        plot_mickey_mouse(X, K, ind_samples_clusters, centroids)
 
 
 def task_em(X):
@@ -87,6 +87,7 @@ def task_em(X):
     :param X: data for clustering, shape: (N, D), N=500, D = 2
     :return:
     """
+
     K = 1 # TODO: change 
     max_iter = 1 # TODO: change 
     means, soft_clusters, log_likelihood = em(X, K, max_iter)
