@@ -90,8 +90,8 @@ def task_em(X):
     :return:
     """
 
-    K = 1  # TODO: change
-    max_iter = 1  # TODO: change
+    K = 5 # TODO: change
+    max_iter = 20 # TODO: change
     means, soft_clusters, log_likelihood = em(X, K, max_iter)
 
     plot_cost(log_likelihood)
@@ -111,7 +111,7 @@ def main():
     task_kmeans(X_mouse)
 
     # ----- Task EM
-    # task_em(X_mouse)
+    task_em(X_mouse)
 
 
 if __name__ == '__main__':

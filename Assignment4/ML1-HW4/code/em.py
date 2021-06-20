@@ -1,6 +1,7 @@
 import numpy as np
 from scipy.stats import multivariate_normal
 
+
 def calculate_responsibilities(X, mean, sigma, pi, N, K):
     """
     :param X: data for clustering, shape: (N, D), with N - number of data points, D - dimension
@@ -11,13 +12,18 @@ def calculate_responsibilities(X, mean, sigma, pi, N, K):
     :param K: number of clusters
     :return: responsibilities - Equation (5) from the HW4 sheet
     """
-    responsibilities = np.zeros((N, K)) # gamma_nk from the HW sheet
+    responsibilities = np.zeros((N, K))  # gamma_nk from the HW sheet
 
     # TODO: calculate responsibilities gamma_nk
     # Do not forget to do it for each of K components 
     # To calculate the term N(x_n | mu_k, Sigma_k) use multivariate_normal.pdf function
-        
-    return responsibilities                                             
+    for k in range(K):
+        responsibilities[:, k] = pi[k] * multivariate_normal.pdf(X, mean=mean[k, :], cov=sigma[k])
+
+    sum_k = np.sum(responsibilities, axis=1)
+
+    responsibilities = responsibilities / sum_k[:, np.newaxis]
+    return responsibilities
 
 
 def update_parameters(X, mean, sigma, pi, responsibilities, N, K):
@@ -35,11 +41,11 @@ def update_parameters(X, mean, sigma, pi, responsibilities, N, K):
     """
 
     mean_new = np.zeros_like(mean)
-    sigma_new  = np.zeros_like(sigma)
+    sigma_new = np.zeros_like(sigma)
     pi_new = np.zeros_like(pi)
-    
+
     N_k = np.sum(responsibilities, axis=0)
-    
+
     # Sigma is already calculated. Your task is to calculate mean_new and pi_new.
     # If you want, you can make this piece of code more efficient (optional),
     # and no points will be achieved only for rewriting it.
@@ -48,16 +54,19 @@ def update_parameters(X, mean, sigma, pi, responsibilities, N, K):
         gamma_nk = responsibilities[:, k].T
 
         # TODO: mean_new
-        
+
+        mean_new[k] = np.sum(np.dot(gamma_nk, X)) / N_k[k]
+
         tmp = np.zeros_like(sigma_new[k])
         for sample in range(N):
             diff = (X[sample, :] - mean_new[k, :]).reshape((-1, 1))
             tmp += gamma_nk[sample] * np.dot(diff, diff.T)
-                                          
+
         sigma_new[k] = tmp / N_k[k]
 
         # TODO: pi_new
-    
+        pi_new[k] = N_k[k] / N
+
     return mean_new, sigma_new, pi_new
 
 
@@ -78,7 +87,7 @@ def em(X, K, max_iter):
     # Init GMM
     init_variance = 1.5
     mean = np.random.random(size=(K, D))
-     
+
     cov_mat = np.eye(D) * init_variance
     sigma = np.repeat(cov_mat[np.newaxis, :, :], K, axis=0)
 
@@ -94,15 +103,16 @@ def em(X, K, max_iter):
     for it in range(max_iter):
         # E-Step
         # TODO: appropriate function call
-        
+        responsibilities = calculate_responsibilities(X, mean, sigma, pi, N, K)
+
         # M-Step
         # TODO: appropriate function call
-        
+        mean, sigma, pi = update_parameters(X, mean, sigma, pi, responsibilities, N, K)
         # Evaluate
         soft_clusters = np.zeros((N, K))
         for k in range(K):
             soft_clusters[:, k] = pi[k] * multivariate_normal.pdf(X, mean=mean[k, :], cov=sigma[k])
-            
+
         log_likelihood.append(np.sum(np.log(np.sum(soft_clusters, axis=1))))
 
         if it > 1 and np.abs(log_likelihood[-1] - log_likelihood[-2]) < eps:
