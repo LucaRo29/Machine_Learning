@@ -23,6 +23,7 @@ def calculate_responsibilities(X, mean, sigma, pi, N, K):
     sum_k = np.sum(responsibilities, axis=1)
 
     responsibilities = responsibilities / sum_k[:, np.newaxis]
+
     return responsibilities
 
 
@@ -55,7 +56,7 @@ def update_parameters(X, mean, sigma, pi, responsibilities, N, K):
 
         # TODO: mean_new
 
-        mean_new[k] = np.sum(np.dot(gamma_nk, X)) / N_k[k]
+        mean_new[k] = np.sum(gamma_nk.reshape(-1, 1) * X, axis=0) / N_k[k]
 
         tmp = np.zeros_like(sigma_new[k])
         for sample in range(N):

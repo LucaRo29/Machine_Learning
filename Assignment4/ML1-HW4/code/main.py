@@ -91,7 +91,7 @@ def task_em(X):
     """
 
     K = 5 # TODO: change
-    max_iter = 20 # TODO: change
+    max_iter = 200 # TODO: change
     means, soft_clusters, log_likelihood = em(X, K, max_iter)
 
     plot_cost(log_likelihood)
